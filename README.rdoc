@@ -1,8 +1,61 @@
 = Mac OS X Identity Services plugin
 
-A Redmine plugin for authenticating with Mac OS X Identity Services
+A Redmine plugin for authenticating with Mac OS X Identity Services. 
 
-Copyright (C) 2009 Brian D. Wells
+Enables access for external users and groups that are defined in a directory service (such as Active Directory).
+
+== Features
+
+* User accounts and groups from the local server and/or directory services may be used
+* On-the-fly user creation with name and email address obtained automatically
+* Email addresses local to the server can be preferred over external email addresses
+* User groups in Redmine can be linked to groups in a directory service
+* User membership in groups is update each time a user authenticates
+* Access can be restricted to just those users who belong to defined groups
+* Tested with Mac OS X Server v10.5 Leopard and v10.6 Snow Leopard
+
+== Getting the plugin
+
+The latest copy of the plugin can be found on GitHub http://github.com/brianwells/redmine_osx_ids
+
+The {downloads}[http://github.com/brianwells/redmine_osx_ids/downloads] page may contain copies of the plugin for specific versions of Redmine.
+
+== Installing
+
+Follow the instructions for Redmine plugins at http://www.redmine.org/wiki/redmine/Plugins
+
+Make sure that the plugin is installed to the <tt>vendor/plugins/redmine_osx_ids</tt> folder and that the required migration is performed on the database.
+
+== Usage
+
+=== Enabling Authentication
+
+1. Choose Administration > Settings > Authentication > External Authentication
+2. Add a new Identity Services authentication mode.
+3. Specify a name for the authentication mode as well as the authority that will be providing user accounts and groups.
+4. On-the-fly user creation can be enabled as well as other options such as preferring local email addresses or restricting access to members of specified groups.
+5. After creating the authentication mode, it can be verified by clicking Test next to it in the list.
+
+=== Adding External Groups
+
+1. Choose Administration > Settings > Groups > New group
+2. The name specified must match the short name of the group in the directory service.
+3. Select the appropriate authentication mode for the selected group.
+4. Once created, the group can be given roles in various projects.
+
+=== Adding External Users
+
+If on-the-fly user creation was enabled, the users will be created automatically when they first log in. However, even then there may be a need to create the user account in advance.
+
+1. Choose Administration > Settings > Users > New user
+2. The login specified must match the short name of the user in the directory service.
+3. Fill in the other details of the account as needed.
+4. Select the appropriate authentication mode for the selected user.
+5. The user will automatically be added to any groups they belong to and can also be given specific roles in various projects.
+
+== License
+
+Copyright (C) 2009,2010 Brian D. Wells
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -16,3 +69,7 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+== Help
+
+Help with the plugin can be requested by creating an issue on GitHub at http://github.com/brianwells/redmine_osx_ids/issues
