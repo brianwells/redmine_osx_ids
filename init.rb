@@ -31,5 +31,24 @@ Redmine::Plugin.register :redmine_osx_ids do
   version '1.1.0'
   requires_redmine :version_or_higher => '1.0.0'
 
-    menu :admin_menu, :auth_source_osx, { :controller => 'osx_auth_sources', :action => 'index'}, :caption => :label_auth_source_osx }
+    menu :admin_menu, :auth_source_osx, { :controller => 'osx_auth_sources', :action => 'index'}, :caption => :label_auth_source_osx,
+    :html => { :style => "background-image: url(/plugin_assets/redmine_osx_ids/images/network.png)" }
 end
+
+# generate network icon image
+require 'ftools'
+File.makedirs File.join(RAILS_ROOT,"/public/plugin_assets/redmine_osx_ids/images")
+require 'osx/cocoa'
+image = OSX::NSImage.imageNamed(OSX::NSImageNameNetwork)
+image.setScalesWhenResized true
+image.setSize OSX::NSMakeSize(16, 16)
+newimg = OSX::NSImage.alloc.initWithSize(OSX::NSMakeSize(16,16))
+newimg.lockFocus
+image.compositeToPoint_operation(OSX::NSZeroPoint, OSX::NSCompositeSourceOver)
+newimg.unlockFocus
+rep = OSX::NSBitmapImageRep.alloc.initWithData(newimg.TIFFRepresentation)
+png = rep.representationUsingType_properties(OSX::NSPNGFileType,nil)
+png.writeToFile_atomically(File.join(RAILS_ROOT,"/public/plugin_assets/redmine_osx_ids/images/network.png"),true)
+rep.release
+newimg.release
+
