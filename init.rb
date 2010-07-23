@@ -31,3 +31,7 @@ Redmine::Plugin.register :redmine_osx_ids do
   version '1.1.0'
   requires_redmine :version_or_higher => '0.9.3'
 end
+
+# hack to prevent Thread from complaining
+ENV['RUBYCOCOA_THREAD_HOOK_DISABLE']='1'
+
