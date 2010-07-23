@@ -35,6 +35,9 @@ Redmine::Plugin.register :redmine_osx_ids do
     :html => { :style => "background-image: url(/plugin_assets/redmine_osx_ids/images/network.png)" }
 end
 
+# hack to prevent Thread from complaining
+ENV['RUBYCOCOA_THREAD_HOOK_DISABLE']='1'
+
 # generate network icon image
 require 'ftools'
 File.makedirs File.join(RAILS_ROOT,"/public/plugin_assets/redmine_osx_ids/images")
