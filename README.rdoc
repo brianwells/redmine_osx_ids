@@ -12,7 +12,7 @@ Enables access for external users and groups that are defined in a directory ser
 * User groups in Redmine can be linked to groups in a directory service
 * User membership in groups is update each time a user authenticates
 * Access can be restricted to just those users who belong to defined groups
-* Tested with Mac OS X Server v10.5 Leopard and v10.6 Snow Leopard
+* Tested with Mac OS X Server v10.6 Snow Leopard
 
 == Getting the plugin
 
@@ -25,6 +25,8 @@ The {downloads}[http://github.com/brianwells/redmine_osx_ids/downloads] page may
 Follow the instructions for Redmine plugins at http://www.redmine.org/wiki/redmine/Plugins
 
 Make sure that the plugin is installed to the <tt>vendor/plugins/redmine_osx_ids</tt> folder and that the required migration is performed on the database.
+
+Please note that the downloads from GitHub are named something like "brianwells-redmine_osx_ids-c82e00c" when extracted. For best results, always rename the folder to "redmine_osx_ids" and place it in the plugins folder.
 
 == Usage
 
