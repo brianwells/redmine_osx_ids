@@ -2,7 +2,7 @@ require 'redmine'
 
 # Patches to the Redmine core
 require 'dispatcher'
-Dispatcher.to_prepare do
+Dispatcher.to_prepare :redmine_osx_ids do
   require 'osx_application_controller_patch'
   ApplicationController.send(:include, OsxApplicationControllerPatch)
   require 'osx_account_controller_patch'
@@ -29,5 +29,7 @@ Redmine::Plugin.register :redmine_osx_ids do
   author_url 'http://www.briandwells.com'
   description 'A plugin for authenticating with Mac OS X Identity Services'
   version '1.1.0'
-  requires_redmine :version_or_higher => '0.9.3'
+  requires_redmine :version_or_higher => '1.0.0'
+
+    menu :admin_menu, :auth_source_osx, { :controller => 'osx_auth_sources', :action => 'index'}, :caption => :label_auth_source_osx }
 end

@@ -1,11 +1,9 @@
 # English strings go here for Rails i18n
 en:
-  label_external_authentication: "External Authentication"
-  label_osx_auth_source_new:     "New Identity Services authentication mode"
-  label_ldap_auth_source_new:    "New LDAP authentication mode"
-  field_host_or_authority:       "Host/Authority"
-  field_prefer_local_email:      "Prefer local email (user@{{domain}})"
-  field_restrict_access:         "Restrict access to members of groups"
+  label_auth_source_osx:         "Identity Services authentication"
+  field_osx_authority:           "Authority"
+  field_osx_prefer_local_email:  "Prefer local email (user@{{domain}})"
+  field_osx_restrict_access:     "Restrict access to members of groups"
   label_osx_auth_default:        "Local ({{local_host}}) and Managed Network Directory"
   label_osx_auth_managed:        "Managed Network Directory"
   label_osx_auth_local:          "Local ({{local_host}})"

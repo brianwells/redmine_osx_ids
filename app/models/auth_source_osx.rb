@@ -16,6 +16,7 @@ class AuthSourceOsx < AuthSource
 
   validates_presence_of :osx_identity_authority
   validates_length_of :name, :maximum => 60, :allow_nil => false
+  before_save :set_host_name
 
   def authenticate(login, password)
     return nil if login.blank? || password.blank?
@@ -53,6 +54,10 @@ class AuthSourceOsx < AuthSource
     end
   end
   
+  def self.allow_password_changes?
+    false
+  end
+
   def reference_for_group_name(name)
     group = OSX::CBIdentity.identityWithName_authority(name, authority_for_name!(self.osx_identity_authority))
     group.is_a?(OSX::CBGroupIdentity) ? Base64.encode64(group.persistentReference.rubyString) : nil
@@ -94,6 +99,10 @@ class AuthSourceOsx < AuthSource
 
   private
 
+  def set_host_name
+    self.host = name_for_identity_authority(self.osx_identity_authority)
+  end
+
   def group_for_name!(group_name, authority)
     group = group_for_name(group_name, authority)
     raise "Identity Services Group \"#{group_name}\" not found" if group.nil?
@@ -105,6 +114,12 @@ class AuthSourceOsx < AuthSource
       group.is_a?(OSX::CBGroupIdentity) ? group : nil
   end
   
+  def name_for_identity_authority(ref)
+    values = AuthSourceOsx::AUTHORITIES
+    name = (values[ref][:name])
+    name.nil? ? "Unknown" : l(name, :local_host => Socket.gethostname.split(".").first )
+  end
+
   def authority_for_name!(auth_name)
     authority = authority_for_name(auth_name)
     raise "Identity Services Authority \"#{auth_name}\" not found" if authority.nil?

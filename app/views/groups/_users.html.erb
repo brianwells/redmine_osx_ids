@@ -1,10 +1,10 @@
 <div class="splitcontentleft">
 <% if @group.users.any? %>
 	<table class="list users">
-		<thead>
+		<thead><tr>
 		  <th><%= l(:label_user) %></th>
 		  <th style="width:15%"></th>
-		</thead>
+		</tr></thead>
 		<tbody>
 		<% @group.users.sort.each do |user| %>
 			<tr id="user-<%= user.id %>" class="<%= cycle 'odd', 'even' %>">
@@ -28,7 +28,7 @@
 <div class="splitcontentright">
 <% if @group.auth_source %>
   <p><%= l(:users_are_managed_with) %>
-  <%= link_to @group.auth_source.name, :controller => 'auth_sources', :action => 'edit', :id => @group.auth_source %></p>
+  <%= link_to @group.auth_source.name, @group.auth_source, :action => 'edit' %></p>
 <% else %>
   <% users = User.active.find(:all, :limit => 100) - @group.users %>
   <% if users.any? %>

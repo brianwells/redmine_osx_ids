@@ -9,10 +9,4 @@ module AuthSourcesOsxHelper
     }
   end
 
-  def name_for_identity_authority(ref)
-    values = AuthSourceOsx::AUTHORITIES
-    name = (values[ref][:name])
-    name.nil? ? "Unknown" : l(name, :local_host => Socket.gethostname.split(".").first )
-  end
-
 end

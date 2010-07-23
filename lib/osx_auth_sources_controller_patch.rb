@@ -6,10 +6,8 @@ module OsxAuthSourcesControllerPatch
     base.send(:include, InstanceMethods)
     base.class_eval do
       unloadable
-      alias_method :new_without_osx, :new unless method_defined?(:new_without_osx)
-      alias_method :new, :new_with_osx
-      alias_method :create_without_osx, :create unless method_defined?(:create_without_osx)
-      alias_method :create, :create_with_osx
+      alias_method :index_without_osx, :index unless method_defined?(:index_without_osx)
+      alias_method :index, :index_with_osx
       helper :auth_sources_osx
     end
   end
@@ -20,27 +18,10 @@ module OsxAuthSourcesControllerPatch
   
   module InstanceMethods
   
-    def new_with_osx
-      if params[:type] == "AuthSourceOsx"
-        @auth_source = AuthSourceOsx.new
-      else
-        new_without_osx
-      end
+    def index_with_osx
+      @auth_source_name = auth_source_class.new.auth_method_name
+      index_without_osx
     end
 
-    def create_with_osx
-      if params[:auth_source][:type] == "AuthSourceOsx"
-        @auth_source = AuthSourceOsx.new(params[:auth_source])
-        if @auth_source.save
-          flash[:notice] = l(:notice_successful_create)
-          redirect_to :action => 'list'
-        else
-          render :action => 'new'
-        end
-      else
-        create_without_osx
-      end
-    end
-    
   end
 end

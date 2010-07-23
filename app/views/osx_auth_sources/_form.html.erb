@@ -14,10 +14,10 @@
 </div>
 
 <fieldset class="box"><legend><%=l(:label_options)%></legend>
-<p><label for="auth_source_prefer_local_email"><%=l(:field_prefer_local_email, :domain => Socket.gethostname.split(".")[1..-1].join(".") )%></label>
+<p><label for="auth_source_prefer_local_email"><%=l(:field_osx_prefer_local_email, :domain => Socket.gethostname.split(".")[1..-1].join(".") )%></label>
 <%= check_box 'auth_source', 'prefer_local_email'  %></p>
 
-<p><label for="auth_source_restrict_access"><%=l(:field_restrict_access)%></label>
+<p><label for="auth_source_restrict_access"><%=l(:field_osx_restrict_access)%></label>
 <%= check_box 'auth_source', 'restrict_access' %></p>
 </fieldset>
 <!--[eoform:auth_source]-->
