@@ -28,8 +28,8 @@ Redmine::Plugin.register :redmine_osx_ids do
   author 'Brian D. Wells'
   author_url 'http://www.briandwells.com'
   description 'A plugin for authenticating with Mac OS X Identity Services'
-  version '1.1.0'
-  requires_redmine :version_or_higher => '0.9.3'
+  version '1.1.1'
+  requires_redmine :version_or_higher => '0.9.4'
 end
 
 # hack to prevent Thread from complaining
