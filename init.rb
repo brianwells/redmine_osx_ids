@@ -21,7 +21,7 @@ Dispatcher.to_prepare :redmine_osx_ids do
 end
 
 # Hook Listeners
-# require 'some_hook'
+require 'redmine_osx_ids/hooks'
 
 Redmine::Plugin.register :redmine_osx_ids do
   name 'Mac OS X Identity Services plugin'
@@ -32,26 +32,8 @@ Redmine::Plugin.register :redmine_osx_ids do
   requires_redmine :version_or_higher => '1.0.0'
 
     menu :admin_menu, :auth_source_osx, { :controller => 'osx_auth_sources', :action => 'index'}, :caption => :label_auth_source_osx,
-    :html => { :style => "background-image: url(/plugin_assets/redmine_osx_ids/images/network.png)" }
+    :html => { :class => 'osx_ids_authentication' }
 end
 
 # hack to prevent Thread from complaining
 ENV['RUBYCOCOA_THREAD_HOOK_DISABLE']='1'
-
-# generate network icon image
-require 'ftools'
-File.makedirs File.join(RAILS_ROOT,"/public/plugin_assets/redmine_osx_ids/images")
-require 'osx/cocoa'
-image = OSX::NSImage.imageNamed(OSX::NSImageNameNetwork)
-image.setScalesWhenResized true
-image.setSize OSX::NSMakeSize(16, 16)
-newimg = OSX::NSImage.alloc.initWithSize(OSX::NSMakeSize(16,16))
-newimg.lockFocus
-image.compositeToPoint_operation(OSX::NSZeroPoint, OSX::NSCompositeSourceOver)
-newimg.unlockFocus
-rep = OSX::NSBitmapImageRep.alloc.initWithData(newimg.TIFFRepresentation)
-png = rep.representationUsingType_properties(OSX::NSPNGFileType,nil)
-png.writeToFile_atomically(File.join(RAILS_ROOT,"/public/plugin_assets/redmine_osx_ids/images/network.png"),true)
-rep.release
-newimg.release
-
