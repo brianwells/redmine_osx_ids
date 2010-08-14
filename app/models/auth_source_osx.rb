@@ -20,7 +20,7 @@ class AuthSourceOsx < AuthSource
 
   def authenticate(login, password)
     return nil if login.blank? || password.blank?
-    attrs = []
+    attrs = {}
     # get authority
     authority = authority_for_name!(self.osx_identity_authority)
     # search for user
@@ -29,10 +29,10 @@ class AuthSourceOsx < AuthSource
     # get attributes if creating new user
     if onthefly_register?
       first, last = fullname_to_first_last(fullname_for_identity(identity))
-      attrs = [:firstname => first,
+      attrs = {:firstname => first,
                :lastname => last,
                :mail => mail_for_identity(identity),
-               :auth_source_id => self.id]
+               :auth_source_id => self.id}
     end
     # authenticate user
     return nil unless identity.authenticateWithPassword(password)
