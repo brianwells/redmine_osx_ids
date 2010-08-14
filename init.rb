@@ -28,7 +28,7 @@ Redmine::Plugin.register :redmine_osx_ids do
   author 'Brian D. Wells'
   author_url 'http://www.briandwells.com'
   description 'A plugin for authenticating with Mac OS X Identity Services'
-  version '1.2.0'
+  version '1.2.1'
   requires_redmine :version_or_higher => '1.0.0'
 
     menu :admin_menu, :auth_source_osx, { :controller => 'osx_auth_sources', :action => 'index'}, :caption => :label_auth_source_osx,
