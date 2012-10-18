@@ -1,3 +1,4 @@
+require_dependency 'project'
 require_dependency 'group'
 
 module OsxGroupPatch
@@ -8,18 +9,22 @@ module OsxGroupPatch
       unloadable
       belongs_to :auth_source
       
+      if Group.included_modules.include?(Redmine::SafeAttributes)
+        safe_attributes 'auth_source_id', :if => lambda {|group, user| user.admin?}
+      end
+    
       validates_each :lastname do |model, attr, value|
         if model.auth_source
           # check to see if auth_source recognizes the group
-          ref = model.auth_source.reference_for_group_name(value)
-          if ref
-            model.auth_source_ref = ref
+          guid = model.auth_source.guid_for_group_name(value)
+          if guid
+            model.osx_record_guid = guid
           else
               model.errors.add(attr, l(:group_not_found))
           end
         else
-          # fix auth_source_ref
-          model.auth_source_ref = nil
+          # fix osx_record_guid
+          model.osx_record_guid = nil
         end
       end
       
@@ -55,4 +60,8 @@ module OsxGroupPatch
     
   end
   
+end
+
+unless Group.included_modules.include? OsxGroupPatch
+  Group.send(:include, OsxGroupPatch)
 end

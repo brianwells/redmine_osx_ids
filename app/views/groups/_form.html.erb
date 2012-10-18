@@ -1,9 +1,0 @@
-<%= error_messages_for :group %>
-
-<div class="box tabular">
-	<p><%= f.text_field :lastname, :label => :field_name %></p>
-  <p><%= f.select :auth_source_id, ([[l(:label_internal), ""]] + @auth_sources.collect { |a| [a.name, a.id] }), {} %></p>
-	<% @group.custom_field_values.each do |value| %>
-	<p><%= custom_field_tag_with_label :group, value %></p>
-  <% end %>
-</div>

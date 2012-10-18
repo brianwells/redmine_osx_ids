@@ -29,3 +29,7 @@ module OsxAccountControllerPatch
         
   end
 end
+
+unless AccountController.included_modules.include? OsxAccountControllerPatch
+  AccountController.send(:include, OsxAccountControllerPatch)
+end

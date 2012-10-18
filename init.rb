@@ -1,39 +1,40 @@
-require 'redmine'
 
-# Patches to the Redmine core
-require 'dispatcher'
-Dispatcher.to_prepare :redmine_osx_ids do
-  require 'osx_application_controller_patch'
-  ApplicationController.send(:include, OsxApplicationControllerPatch)
-  require 'osx_account_controller_patch'
-  AccountController.send(:include, OsxAccountControllerPatch)
-  require 'osx_auth_sources_controller_patch'
-  AuthSourcesController.send(:include, OsxAuthSourcesControllerPatch)
-  require 'osx_auth_source_patch'
-  AuthSource.send(:include, OsxAuthSourcePatch)
-  require 'osx_user_patch'
-  Principal.send(:include, OsxPrincipalPatch)
-  User.send(:include, OsxUserPatch)
-  require 'osx_group_patch'
-  Group.send(:include, OsxGroupPatch)
-  require 'osx_groups_controller_patch'
-  GroupsController.send(:include, OsxGroupsControllerPatch)
+# make sure RubyInline puts compiled code with Redmine
+if Rails.env.production?
+  ENV['INLINEDIR'] =  Rails.root.join("tmp").to_s
 end
 
-# Hook Listeners
-require 'redmine_osx_ids/hooks'
+require_dependency 'open_directory'
+
+ActionDispatch::Callbacks.to_prepare do
+  # use require_dependency if you plan to utilize development mode
+  require_dependency 'osx_application_controller_patch'
+  require_dependency 'osx_account_controller_patch'
+  require_dependency 'osx_auth_sources_controller_patch'
+  require_dependency 'osx_auth_source_patch'
+  require_dependency 'osx_user_patch'
+  require_dependency 'osx_group_patch'
+end
+
+require_dependency 'osx_auth_sources_index_view_patch'
+require_dependency 'osx_groups_index_view_patch'
+require_dependency 'osx_groups_edit_view_patch'
+require_dependency 'osx_users_edit_view_patch'
+
 
 Redmine::Plugin.register :redmine_osx_ids do
-  name 'Mac OS X Identity Services plugin'
+  name 'OS X Open Directory plugin'
   author 'Brian D. Wells'
   author_url 'http://www.briandwells.com'
-  description 'A plugin for authenticating with Mac OS X Identity Services'
-  version '1.2.1'
-  requires_redmine :version_or_higher => '1.0.0'
-
-    menu :admin_menu, :auth_source_osx, { :controller => 'osx_auth_sources', :action => 'index'}, :caption => :label_auth_source_osx,
-    :html => { :class => 'osx_ids_authentication' }
+  description 'A plugin for authenticating with Mac OS X Open Directory'
+  version '2.0.0'
+  requires_redmine :version_or_higher => '2.0.0'
+  url 'https://github.com/brianwells/redmine_osx_ids'
+  menu :admin_menu, :external_authentication, { :controller => 'auth_sources', :action => 'index'}, :caption => :label_external_authentication, :html => { :class => 'server_authentication' }, :after => :ldap_authentication
+  delete_menu_item :admin_menu, :ldap_authentication
 end
 
-# hack to prevent Thread from complaining
-ENV['RUBYCOCOA_THREAD_HOOK_DISABLE']='1'
+# patches to Redmine
+Rails.configuration.to_prepare do
+
+end

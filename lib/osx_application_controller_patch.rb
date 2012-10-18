@@ -30,3 +30,9 @@ module OsxApplicationControllerPatch
         
   end
 end
+
+unless ApplicationController.included_modules.include? OsxApplicationControllerPatch
+  ApplicationController.send(:include, OsxApplicationControllerPatch)
+end
+
+

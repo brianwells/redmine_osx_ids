@@ -1,15 +1,9 @@
 # English strings go here for Rails i18n
 en:
-  label_auth_source_osx:         "Identity Services authentication"
-  field_osx_authority:           "Authority"
-  field_osx_prefer_local_email:  "Prefer local email (user@{{domain}})"
-  field_osx_restrict_access:     "Restrict access to members of groups"
-  label_osx_auth_default:        "Local ({{local_host}}) and Managed Network Directory"
-  label_osx_auth_managed:        "Managed Network Directory"
-  label_osx_auth_local:          "Local ({{local_host}})"
-  field_osx_identity_authority:  "Authority"
-  users_are_managed_with:        "The users for this group are managed externally with"
-  group_not_found:               "not found as group in authentication mode"
-  user_not_found:                "not found as user in authentication mode"
-  notice_account_no_groups:      "Your account is not a member of a group with access"
-  
+  label_external_authentication: External authentication
+  field_osx_restrict_access:     Restrict access to members of groups
+  field_osx_node_name:           Node
+  group_not_found:               not found as group in authentication mode
+  user_not_found:                not found as user in authentication mode
+  notice_account_no_groups:      Your account is not a member of a group with access
+  users_are_managed_with:        The users for this group are managed externally with

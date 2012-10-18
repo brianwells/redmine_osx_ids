@@ -16,11 +16,11 @@ module OsxAuthSourcePatch
   
   module InstanceMethods
 
-    def reference_for_group_name(name)
+    def guid_for_group_name(name)
       return nil
     end
 
-    def reference_for_user_name(name)
+    def guid_for_user_name(name)
       return nil
     end
 
@@ -31,3 +31,8 @@ module OsxAuthSourcePatch
   end
   
 end
+
+unless AuthSource.included_modules.include? OsxAuthSourcePatch
+  AuthSource.send(:include, OsxAuthSourcePatch)
+end
+  

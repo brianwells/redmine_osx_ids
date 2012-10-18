@@ -6,9 +6,8 @@ module OsxAuthSourcesControllerPatch
     base.send(:include, InstanceMethods)
     base.class_eval do
       unloadable
-      alias_method :index_without_osx, :index unless method_defined?(:index_without_osx)
-      alias_method :index, :index_with_osx
-      helper :auth_sources_osx
+      menu_item :external_authentication
+      helper :auth_source_osx
     end
   end
   
@@ -17,11 +16,11 @@ module OsxAuthSourcesControllerPatch
   end
   
   module InstanceMethods
-  
-    def index_with_osx
-      @auth_source_name = auth_source_class.new.auth_method_name
-      index_without_osx
-    end
-
+    # nothing for now
   end
 end
+
+unless AuthSourcesController.included_modules.include? OsxAuthSourcesControllerPatch
+  AuthSourcesController.send(:include, OsxAuthSourcesControllerPatch)
+end
+  

@@ -1,3 +1,4 @@
+require_dependency 'project'
 require_dependency 'principal'
 require_dependency 'user'
 
@@ -25,19 +26,19 @@ module OsxUserPatch
     base.send(:include, InstanceMethods)
     base.class_eval do
       unloadable
-      
+
       validates_each :login do |model, attr, value|
         if model.auth_source
           # check to see if auth_source recognizes the user
-          ref = model.auth_source.reference_for_user_name(value)
-          if ref
-            model.auth_source_ref = ref
+          guid = model.auth_source.guid_for_user_name(value)
+          if guid
+            model.osx_record_guid = guid
           else
               model.errors.add(attr, l(:user_not_found))
           end
         else
-          # fix auth_source_ref
-          model.auth_source_ref = nil
+          # fix osx_record_guid
+          model.osx_record_guid = nil
         end
       end
 
@@ -61,4 +62,11 @@ module OsxUserPatch
 
   end
   
+end
+
+unless Principal.included_modules.include? OsxPrincipalPatch
+  Principal.send(:include, OsxPrincipalPatch)
+end
+unless User.included_modules.include? OsxUserPatch
+  User.send(:include, OsxUserPatch)
 end
