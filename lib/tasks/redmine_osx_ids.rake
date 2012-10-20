@@ -6,10 +6,10 @@ namespace :redmine_osx_ids do
         AuthSourceOsx.find_each do |auth_source|
             if auth_source.osx_node_name.empty?
                 if auth_source.osx_identity_authority == "default" || auth_source.osx_identity_authority == "managed"
-                    auth_source.update_attribute :osx_node_name, "/Search"
+                    auth_source.update_column :osx_node_name, "/Search"
                 end
                 if auth_source.osx_identity_authority == "local"
-                    auth_source.update_attribute :osx_node_name, "/Local/Default"
+                    auth_source.update_column :osx_node_name, "/Local/Default"
                 end
             end
         end
@@ -21,7 +21,7 @@ namespace :redmine_osx_ids do
                 # this is an ugly hack that makes some assumptions about the format of auth_source_ref
                 match = /([\w]{8}(-[\w]{4}){3}-[\w]{12})/.match(Base64.decode64(user.auth_source_ref))
                 unless match.nil?
-                    user.update_attribute :osx_record_guid, match[0]
+                    user.update_column :osx_record_guid, match[0]
                 end
             end
         end
