@@ -1,7 +1,7 @@
 class OsxGroupsEditViewHook < Redmine::Hook::ViewListener
   def view_layouts_base_html_head(context={})
     cc = context[:controller]
-    if cc.controller_name == 'groups' && cc.action_name == 'edit'
+    if cc.controller_name == 'groups' && (cc.action_name == 'edit' || cc.action_name == 'new')
       auth_source = cc.instance_eval{ @group.auth_source }
       code = []
       code << "var auth_source_id = '#{auth_source ? auth_source.id : ""}';"
