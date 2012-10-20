@@ -12,8 +12,9 @@ jQuery(function() {
   $('#group_name').closest('p').after(para);
   // don't let user edit users in group if auth_source involved
   if (auth_source_id) {
-    // remove user delete buttons
-    $('table.users a[data-method="delete"]').remove();
+    // remove user edit/delete buttons
+    $('table.users thead th:eq(' + $('table.users tbody td.buttons:first').index() + ')').remove();
+    $('table.users tbody td.buttons').remove();
     // remove user add form
     $('#tab-content-users div.splitcontentright form.edit_group').remove();
     // put in notice
