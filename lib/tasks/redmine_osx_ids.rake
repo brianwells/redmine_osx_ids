@@ -7,9 +7,11 @@ namespace :redmine_osx_ids do
             if auth_source.osx_node_name.blank?
                 if auth_source.osx_identity_authority == "default" || auth_source.osx_identity_authority == "managed"
                     auth_source.update_column :osx_node_name, "/Search"
+                    auth_source.update_column :host, "/Search"
                 end
                 if auth_source.osx_identity_authority == "local"
                     auth_source.update_column :osx_node_name, "/Local/Default"
+                    auth_source.update_column :host, "/Local/Default"
                 end
             end
         end
