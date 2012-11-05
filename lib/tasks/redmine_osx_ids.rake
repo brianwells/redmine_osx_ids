@@ -16,14 +16,14 @@ namespace :redmine_osx_ids do
             end
         end
     end
-    if User.column_names.include? "auth_source_ref"
-        # convert users auth_source_ref to osx_record_guid
-        User.find_each do |user|
-            if user.osx_record_guid.blank? && !user.auth_source_ref.nil?
+    if Principal.column_names.include? "auth_source_ref"
+        # convert users/groups auth_source_ref to osx_record_guid
+        Principal.find_each do |principal|
+            if principal.osx_record_guid.blank? && !principal.auth_source_ref.nil?
                 # this is an ugly hack that makes some assumptions about the format of auth_source_ref
-                match = /([\w]{8}(-[\w]{4}){3}-[\w]{12})/.match(Base64.decode64(user.auth_source_ref))
+                match = /([\w]{8}(-[\w]{4}){3}-[\w]{12})/.match(Base64.decode64(principal.auth_source_ref))
                 unless match.nil?
-                    user.update_column :osx_record_guid, match[0]
+                    principal.update_column :osx_record_guid, match[0]
                 end
             end
         end
